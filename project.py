@@ -19,8 +19,9 @@ def project(points_world_space, cams_pos, cams_angles, focal_lens):
     rot_mats = rodrigues_batch(cams_angles)
 
     # Points to camera space
-    points_cam_space = tf.matmul(
-        rot_mats, (points_world_space - cams_pos)[:, :, tf.newaxis])
+    points_cam_space =  tf.matmul(
+        tf.matrix_transpose(rot_mats),
+        (points_world_space - cams_pos)[:, :, tf.newaxis])
     points_cam_space = tf.squeeze(points_cam_space)
 
     zeros = tf.zeros([batch_size])
